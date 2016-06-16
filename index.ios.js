@@ -56,7 +56,7 @@ class main extends Component {
                    passProps:{
                      login:this.state.login
                    },
-                   title:'',
+                   title:''
                 }}
                 style={{flex:1}}
                 ref="nav"

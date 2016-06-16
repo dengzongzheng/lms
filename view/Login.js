@@ -138,16 +138,20 @@ const styles = StyleSheet.create({
         height:50,
         marginLeft:20,
         marginRight:20,
-        backgroundColor:'white'
+        backgroundColor:'white',
+        fontSize:14,
+        borderRadius:5
     },
     password_input:{
         height:50,
         marginLeft:20,
         marginRight:20,
-        backgroundColor:'white'
+        backgroundColor:'white',
+        fontSize:14,
+        borderRadius:5
     },
     password_forget:{
-        height:20,
+        height:20
     },
     password_forget_text_view:{
         marginLeft:10,

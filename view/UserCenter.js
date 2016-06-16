@@ -53,6 +53,10 @@ export default class extends Component{
 
     }
 
+    goBack(){
+        this.props.navigator.pop();
+    }
+
     render(){
         return(
                 <View style={[styles.flex_colum]}>
@@ -60,6 +64,9 @@ export default class extends Component{
                             <Image source={require('../view/images/defualt_head.imageset/defualt_head.png')}/>
                             <Text style={[styles.user_text,styles.fontWhite]}>XXX联盟商</Text>
                             <Text style={styles.fontWhite}>18511898011</Text>
+                            <TouchableHighlight onPress={()=>this.goBack()} underlayColor="#eee" style={[styles.back]}>
+                                <Image source={require('../view/images/back.imageset/back_button.png')} style={[]}/>
+                            </TouchableHighlight>
                     </View>
                     <View style={[styles.flex_colum,styles.contentContianer]}>
                         <TouchableHighlight underlayColor="#eee" style={styles.flex_row} onPress={()=>this.childNumber()}>
@@ -69,7 +76,7 @@ export default class extends Component{
                                            style={styles.image_box}/>
                                     <Text style={[styles.row_box_text]}>我的子账号</Text>
                                 </View>
-                                <Image source={require('../view/images/back.imageset/back_button.png')} style={styles.image_box}/>
+                                <Image source={require('../view/images/rightbutton.imageset/rightbutton.png')} style={styles.image_box}/>
                             </View>
                         </TouchableHighlight>
 
@@ -80,7 +87,7 @@ export default class extends Component{
                                            style={styles.image_box}/>
                                     <Text style={[styles.row_box_text]}>我的推广专属二维码</Text>
                                 </View>
-                                <Image source={require('../view/images/back.imageset/back_button.png')} style={styles.image_box}/>
+                                <Image source={require('../view/images/rightbutton.imageset/rightbutton.png')} style={styles.image_box}/>
                             </View>
                         </TouchableHighlight>
 
@@ -91,7 +98,7 @@ export default class extends Component{
                                            style={styles.image_box}/>
                                     <Text style={[styles.row_box_text]}>修改密码</Text>
                                 </View>
-                                <Image source={require('../view/images/back.imageset/back_button.png')} style={styles.image_box}/>
+                                <Image source={require('../view/images/rightbutton.imageset/rightbutton.png')} style={styles.image_box}/>
                             </View>
                         </TouchableHighlight>
 
@@ -102,7 +109,7 @@ export default class extends Component{
                                            style={styles.image_box}/>
                                     <Text style={[styles.row_box_text]}>检测新版本</Text>
                                 </View>
-                                <Image source={require('../view/images/back.imageset/back_button.png')} style={styles.image_box}/>
+                                <Image source={require('../view/images/rightbutton.imageset/rightbutton.png')} style={styles.image_box}/>
                             </View>
                         </TouchableHighlight>
                     </View>
@@ -173,7 +180,9 @@ const styles = StyleSheet.create({
         backgroundColor:'white'
     },
     back:{
-        alignItems:'flex-end'
+        position:'absolute',
+        top:20,
+        left:30
     },
     user_text:{
         marginTop:10
