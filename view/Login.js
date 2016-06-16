@@ -43,10 +43,11 @@ export default class extends Component{
         return (
             <View>
                 <View style={styles.header}>
+                    <Image source={require('./images/back.imageset/back_button.png')} style={[styles.back]}/>
                     <Text style={styles.header_text}>联盟商账号登录</Text>
                 </View>
                 <Image source={require('../view/images/bg.imageset/bg.png')} style={styles.image_Container}>
-                    <View style={[styles.flex_colum,styles.logoContent]}>
+                    <View style={[styles.flex_colum,styles.logoContent,{flex:0.8}]}>
                         <Image source={require('../view/images/logincon.appiconset/120x120.png')}></Image>
                         <Text style={styles.logo_text}>联盟商</Text>
                     </View>
@@ -182,6 +183,11 @@ const styles = StyleSheet.create({
     },
     image_right:{
         marginRight:10
+    },
+    back:{
+        position:'absolute',
+        left:13,
+        top:18
     }
 
 });
