@@ -1,0 +1,56 @@
+    fc-jyall-workflow: /jyall-workflow/**
+    fc-jyhouse-api: /jyhouse-api/**
+    ic-user-api: /user-api/**
+    fc-jypay-cashier: /jypay-cashier/**
+    fc-jypay-gateway: /jypay-gateway/**
+    fc-jyshop-aptmt: /jyshop-aptmt/**
+    fc-jyshop-deco: /jyshop-deco/**
+    fc-jyshop-magic: /jyshop-magic/**
+    fc-jyshop-jd: /jyshop-jd/**
+    fc-jyshop-gome: /jyshop-gome/**
+    fc-jyshop-comment: /jyshop-comment/**
+    fc-jyshop-goods: /jyshop-goods/**
+    fc-jyshop-cart: /jyshop-cart/**
+    fc-jyorder-api: /jyorder-api/**
+    ic-common: /common-api/**
+    fc-jyhouse-golden: /jyhouse-golden/**
+    fc-jypay-payapi: /jypay-payapi/**
+    fc-jypay-jydou: /jypay-jydou/**
+    ic-common-webData: /web-data/*
+    ic-user-employee:  /user-employee/**
+    fc-jyhouse-union: /jyhouse-union/**
+
+
+用户名：15201042556/111111
+XXX联盟商
+18511898011
+
+联盟商接口
+
+登陆
+http://app.jyall.com/user-api/v1/unionUseLogin/13214141414/111111
+重置密码
+http://10.10.32.48/user-api/v1/resetPwd/13056645908/111111
+修改密码
+http://10.10.32.48/user-api/v1/updatePwd/11111/U201606010000000010/111111/1111111
+检测手机号是否注册
+http://app.jyall.com/user-api/v1/checkMobileRegist/13214141414
+
+获取验证码
+http://106.39.13.149/common-api/v1/common/vcode/genRandCode/13214141414?taskType=jiaju&codeTime=15&isSendSms=true
+验证验证码
+http://106.39.13.149/common-api/v1/common/vcode/checkRandomCode/13214141414/1234
+
+
+
+获取子账号信息
+http://10.10.33.136/v1/provider/1.0/getUnionChildren/U201606010000000010
+根据联盟商id查询金管家，二维码接口
+http://10.10.33.136/v1/provider/1.0/getGoldenByUnionId/U201606010000000010
+联盟商id查询客户接口
+http://10.10.33.136/v1/provider/1.0/getCustomerByUnionId/U201606010000000010
+新增子账户
+http://10.10.33.136/v1/provider/1.0/insertChildren     post请求
+联盟商推荐客户接口
+http://10.10.33.136/v1/provider/1.0/insertCustomer     post请求
+
