@@ -61,7 +61,9 @@ export default class extends Component{
         return(
             <View>
                 <View style={[styles.headerContainer,styles.flex_row]}>
-                    <View style={styles.out}></View>
+                    <View style={styles.out}>
+                        <Image source={require('./images/saoyisao.imageset/saoyisao.png')}/>
+                    </View>
                     <View style={[styles.flex_row,styles.header_title]}>
                         <TouchableHighlight onPress={()=>this.getGoden()} underlayColor="#eee">
                             <Text style={[styles.font15,styles.magin_right]}>金官家</Text>
@@ -116,6 +118,7 @@ const styles = StyleSheet.create({
     out:{
         width:40,
         alignItems:'stretch',
-        justifyContent:'center'
+        justifyContent:'center',
+        marginLeft:20
     }
 });

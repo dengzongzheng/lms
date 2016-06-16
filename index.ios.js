@@ -47,7 +47,7 @@ class main extends Component {
     }
 
     render() {
-        const mains = this.state.login ? Main : Login;
+        const mains = this.state.login ? Login : Main;
         return (
             <NavigatorIOS
                 initialRoute={{

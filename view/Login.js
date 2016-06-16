@@ -51,11 +51,18 @@ export default class extends Component{
                         <Text style={styles.logo_text}>联盟商</Text>
                     </View>
                     <View style={styles.flex_colum}>
-                        <View style={styles.flex_colum}>
-                            <TextInput style={styles.user_input} placeholder='请输入您的电话' />
+                        <View style={[styles.flex_row,{justifyContent:'center',alignItems:'center'}]}>
+                            <View style={[styles.flex_row,styles.user_input_container]}>
+                                <Image source={require('./images/phone.imageset/phone.png')} style={[styles.image_common]}/>
+                                <TextInput style={[styles.user_input,styles.flex_row]} placeholder='请输入您的电话'/>
+                            </View>
                         </View>
-                        <View style={styles.flex_colum}>
-                            <TextInput style={styles.password_input} placeholder="请输入密码"/>
+                        <View style={[styles.flex_row,{justifyContent:'center',alignItems:'center'}]}>
+                            <View style={[styles.flex_row,styles.user_input_container]}>
+                                <Image source={require('./images/lock-b.imageset/lock_b.png')} style={[styles.image_common]}/>
+                                <TextInput style={[styles.user_input,styles.flex_row]} placeholder='请输入您的密码'/>
+                                <Image source={require('./images/eye_close.imageset/eye_close.png')} style={[styles.image_right]}/>
+                            </View>
                         </View>
                         <View style={[styles.flex_row,styles.password_forget]}>
                              <View style={styles.flex_colum}></View>
@@ -82,7 +89,7 @@ const styles = StyleSheet.create({
 
     },
     header:{
-        marginTop:20,
+        marginTop:10,
         borderBottomWidth:Util.pixel,
         borderBottomColor:'black',
         height:50,
@@ -135,12 +142,21 @@ const styles = StyleSheet.create({
         flexDirection:'row'
     },
     user_input:{
-        height:50,
         marginLeft:20,
         marginRight:20,
         backgroundColor:'white',
         fontSize:14,
-        borderRadius:5
+    },
+    user_input_container:{
+        borderColor:'#eee',
+        borderWidth:Util.pixel,
+        marginLeft:20,
+        marginRight:20,
+        backgroundColor:'white',
+        borderRadius:5,
+        height:50,
+        justifyContent:'center',
+        alignItems:'center'
     },
     password_input:{
         height:50,
@@ -160,6 +176,12 @@ const styles = StyleSheet.create({
     password_forget_text:{
        width:100,
        backgroundColor:'transparent'
+    },
+    image_common:{
+        marginLeft:10
+    },
+    image_right:{
+        marginRight:10
     }
 
 });
