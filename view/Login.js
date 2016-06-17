@@ -7,7 +7,9 @@ import {
     Image,
     TouchableHighlight,
     TextInput,
-    NavigatorIOS
+    NavigatorIOS,
+    AlertIOS,
+    AsyncStorage
 } from 'react-native'
 
 'use district';
@@ -15,6 +17,8 @@ import {
 import Util from './util/Util'
 
 import Main from '../view/Main'
+
+var loginUrl = "/user-api/v1/unionUseLogin";
 
 export default class extends Component{
 
@@ -26,17 +30,62 @@ export default class extends Component{
     constructor(props) {
         super(props);
         // 初始状态
-        this.state = {};
+        this.state = {
+            userName:'',
+            passWord:''
+        };
         this.login = this.login.bind(this);
     }
 
     login(){
-         this.props.navigator.push({
-             component:Main,
-             title:'',
-             navigationBarHidden:true,
-             ref:'nav'
+
+         if(!this.state.userName){
+             AlertIOS.alert('请输入正确的手机号');
+             return;
+         }
+         if(!this.state.passWord){
+             AlertIOS.alert('请输入密码');
+             return;
+         }
+
+         var url = Util.api+loginUrl+"/"+this.state.userName+"/"+this.state.passWord;
+         console.log(url);
+         fetch(url).then((response)=>{
+
+             if(response.status==200){
+                 response.json().then((responseData)=>{
+                     AsyncStorage.setItem("tokenid",responseData.tokenid);
+                     AsyncStorage.setItem("unionBusinessId",responseData.authUser.unionBusinessId);
+                     AsyncStorage.setItem("unionBusinessName",responseData.authUser.unionBusinessName);
+                     this.props.navigator.push({
+                         component:Main,
+                         title:'',
+                         navigationBarHidden:true,
+                         ref:'nav'
+                     });
+
+                 });
+
+             }else{
+                 response.json().then((responseData)=>{
+                     AlertIOS.alert(responseData.message);
+                 });
+             }
+
+         }).catch((error)=>{
+
          });
+    }
+
+    setUserName(userName){
+        this.setState({
+            userName:userName
+        });
+    }
+    setPassWord(passWord){
+        this.setState({
+           passWord:passWord
+        });
     }
 
     render(){
@@ -55,13 +104,13 @@ export default class extends Component{
                         <View style={[styles.flex_row,{justifyContent:'center',alignItems:'center'}]}>
                             <View style={[styles.flex_row,styles.user_input_container]}>
                                 <Image source={require('./images/phone.imageset/phone.png')} style={[styles.image_common]}/>
-                                <TextInput style={[styles.user_input,styles.flex_row]} placeholder='请输入您的电话'/>
+                                <TextInput style={[styles.user_input,styles.flex_row]} maxLength={11} onChange={(event)=>this.setUserName(event.nativeEvent.text)} keyboardType="numeric" placeholder='请输入您的电话'/>
                             </View>
                         </View>
                         <View style={[styles.flex_row,{justifyContent:'center',alignItems:'center'}]}>
                             <View style={[styles.flex_row,styles.user_input_container]}>
                                 <Image source={require('./images/lock-b.imageset/lock_b.png')} style={[styles.image_common]}/>
-                                <TextInput style={[styles.user_input,styles.flex_row]} placeholder='请输入您的密码'/>
+                                <TextInput style={[styles.user_input,styles.flex_row]} onChange={(event)=>this.setPassWord(event.nativeEvent.text)} secureTextEntry={true} placeholder='请输入您的密码'/>
                                 <Image source={require('./images/eye_close.imageset/eye_close.png')} style={[styles.image_right]}/>
                             </View>
                         </View>
