@@ -14,6 +14,7 @@ import {
 import Util from '../view/util/Util'
 import ChangePassword from '../view/ChangePassword'
 import MyCode from '../view/MyCode'
+import Login from '../view/Login'
 
 import ChildNumber from '../view/ChildNumber'
 
@@ -91,6 +92,14 @@ export default class extends Component{
         });
     }
 
+    goLogin(){
+        this.props.navigator.push({
+            component:Login,
+            title:'',
+            navigationBarHidden:true
+        })
+    }
+
     render(){
         var header;
         let logout = null;
@@ -107,7 +116,7 @@ export default class extends Component{
                 </TouchableHighlight>
             );
         }else{
-            header = (<View style={styles.loginButton}><Text style={styles.fontWhite}>马上登录</Text></View>);
+            header = (<TouchableHighlight onPress={()=>this.goLogin()} underlayColor="red"><View style={styles.loginButton}><Text style={styles.fontWhite}>马上登录</Text></View></TouchableHighlight>);
         }
 
         return(

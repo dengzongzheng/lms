@@ -89,11 +89,21 @@ export default class extends Component{
         });
     }
 
+    gotBack(){
+        this.props.navigator.push({
+            component:Main,
+            title:'',
+            navigationBarHidden:true
+        });
+    }
+
     render(){
         return (
             <View>
                 <View style={styles.header}>
-                    <Image source={require('./images/back.imageset/back_button.png')} style={[styles.back]}/>
+                    <TouchableHighlight onPress={()=>this.gotBack()} underlayColor="#eee" style={[styles.back]}>
+                        <Image source={require('./images/back.imageset/back_button.png')} />
+                    </TouchableHighlight>
                     <Text style={styles.header_text}>联盟商账号登录</Text>
                 </View>
                 <Image source={require('../view/images/bg.imageset/bg.png')} style={styles.image_Container}>
