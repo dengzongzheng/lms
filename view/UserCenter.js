@@ -5,7 +5,8 @@ import {
     StyleSheet,
     Text,
     TouchableHighlight,
-    NavigatorIOS
+    NavigatorIOS,
+    AsyncStorage
 } from 'react-native'
 
 'use district';
@@ -22,7 +23,32 @@ export default class extends Component{
     constructor(props) {
         super(props);
         // 初始状态
-        this.state = {};
+        this.state = {
+            unionBusinessName:'',
+            mobile:'',
+            isLogin:false
+        };
+    }
+
+    componentDidMount() {
+         AsyncStorage.getItem('tokenid').then((value)=>{
+            if(value!=null){
+                AsyncStorage.getItem('unionBusinessName').then((value)=>{
+                    this.setState({
+                        unionBusinessName:value,
+                    });
+                });
+                AsyncStorage.getItem('mobile').then((value)=>{
+                    this.setState({
+                        mobile:value
+                    });
+                });
+                this.setState({
+                    isLogin:true
+                });
+            }
+        });
+
     }
 
     childNumber(){
@@ -57,13 +83,38 @@ export default class extends Component{
         this.props.navigator.pop();
     }
 
+    logOut(){
+
+        AsyncStorage.removeItem('tokenid');
+        this.setState({
+            isLogin:false
+        });
+    }
+
     render(){
+        var header;
+        let logout = null;
+        if(this.state.isLogin){
+            header = (
+                <View><Text style={[styles.user_text,styles.fontWhite]}>{this.state.unionBusinessName}</Text>
+                    <Text style={styles.fontWhite}>{this.state.mobile}</Text></View>
+            );
+            logout = (
+                <TouchableHighlight onPress={()=>this.logOut()}   style={styles.flex_row}>
+                    <View style={[styles.logout,styles.flex_row]}>
+                        <Text style={[styles.logout_text]}>退出登录</Text>
+                    </View>
+                </TouchableHighlight>
+            );
+        }else{
+            header = (<View style={styles.loginButton}><Text style={styles.fontWhite}>马上登录</Text></View>);
+        }
+
         return(
                 <View style={[styles.flex_colum]}>
                     <View style={[styles.flex_colum,styles.headerContianer]}>
                             <Image source={require('../view/images/defualt_head.imageset/defualt_head.png')}/>
-                            <Text style={[styles.user_text,styles.fontWhite]}>XXX联盟商</Text>
-                            <Text style={styles.fontWhite}>18511898011</Text>
+                             {header}
                             <TouchableHighlight onPress={()=>this.goBack()} underlayColor="#eee" style={[styles.back]}>
                                 <Image source={require('../view/images/back.imageset/back_button.png')} style={[]}/>
                             </TouchableHighlight>
@@ -114,9 +165,7 @@ export default class extends Component{
                         </TouchableHighlight>
                     </View>
                     <View style={[styles.flex_row,{backgroundColor:'white'}]}>
-                        <View style={[styles.logout,styles.flex_row]}>
-                                <Text style={[styles.logout_text]}>退出登录</Text>
-                        </View>
+                        {logout}
                         <View style={styles.row}></View>
                     </View>
                 </View>
@@ -168,10 +217,9 @@ const styles = StyleSheet.create({
     },
     logout:{
         height:30,
-        marginTop:10,
         justifyContent:'center',
         alignItems:'center',
-        backgroundColor:'white',
+        backgroundColor:'white'
 
     },
     logout_text:{
@@ -189,6 +237,17 @@ const styles = StyleSheet.create({
     },
     fontWhite:{
         color:'white'
+    },
+    loginButton:{
+        borderColor:'white',
+        justifyContent:'center',
+        alignItems:'center',
+        marginTop:10,
+        borderWidth:Util.pixel,
+        height:20,
+        borderRadius:3,
+        paddingLeft:10,
+        paddingRight:10
     }
 
 });

@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
         borderBottomWidth:Util.pixel,
         borderBottomColor:'black',
         flex:1,
-        flexDirection:'row',
+        flexDirection:'row'
     },
     flex_row:{
         flex:1,

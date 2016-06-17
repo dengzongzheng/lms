@@ -57,6 +57,7 @@ export default class extends Component{
                      AsyncStorage.setItem("tokenid",responseData.tokenid);
                      AsyncStorage.setItem("unionBusinessId",responseData.authUser.unionBusinessId);
                      AsyncStorage.setItem("unionBusinessName",responseData.authUser.unionBusinessName);
+                     AsyncStorage.setItem("mobile",responseData.authUser.mobile);
                      this.props.navigator.push({
                          component:Main,
                          title:'',

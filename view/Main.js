@@ -5,7 +5,8 @@ import {
     StyleSheet,
     TouchableHighlight,
     Image,
-    AlertIOS
+    AlertIOS,
+    AsyncStorage
 } from 'react-native'
 
 'use district';
@@ -24,7 +25,18 @@ export default class extends Component{
     constructor(props) {
         super(props);
         // 初始状态
-        this.state = {};
+        this.state = {
+            isLogin:false
+        };
+    }
+
+    componentDidMount() {
+        let tokenid = AsyncStorage.getItem('tokenid');
+        if(tokenid){
+            this.setState({
+                isLogin:true
+            })
+        }
     }
 
     getGoden(){
@@ -58,11 +70,14 @@ export default class extends Component{
     }
 
     render(){
+
+        let saoyisao = this.state.isLogin?null:<Image source={require('./images/saoyisao.imageset/saoyisao.png')}/>;
+
         return(
             <View>
                 <View style={[styles.headerContainer,styles.flex_row]}>
                     <View style={styles.out}>
-                        <Image source={require('./images/saoyisao.imageset/saoyisao.png')}/>
+                        {saoyisao}
                     </View>
                     <View style={[styles.flex_row,styles.header_title]}>
                         <TouchableHighlight onPress={()=>this.getGoden()} underlayColor="#eee">
@@ -95,7 +110,7 @@ const styles = StyleSheet.create({
         borderBottomColor:'black',
         paddingTop:10,
         paddingBottom:10,
-        height:50,
+        height:50
     },
     header_title:{
       justifyContent:'center',
