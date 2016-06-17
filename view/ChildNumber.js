@@ -37,7 +37,7 @@ export default class extends Component{
         return (
             <View>
                 <View style={[styles.headerContainer,styles.flex_row]}>
-                    <TouchableHighlight onPress={()=>this.goBack()} underlayColor="#eee">
+                    <TouchableHighlight onPress={()=>this.goBack()} underlayColor="transparent">
                         <View style={[styles.backContainer]}>
                             <Image source={require('../view/images/back.imageset/back_button.png')}/>
                         </View>
@@ -45,7 +45,7 @@ export default class extends Component{
                     <View style={[styles.flex_row,styles.titleContainer]}>
                         <Text style={[styles.flex_row,styles.titleText]}>我的子账号</Text>
                     </View>
-                    <TouchableHighlight onPress={()=>this.goAddQRCode()} underlayColor="#eee">
+                    <TouchableHighlight onPress={()=>this.goAddQRCode()} underlayColor="transparent">
                         <View style={[styles.rightContainer]}>
                             <Image source={require('../view/images/QRBCode.imageset/QRCode_b.png')}/>
                         </View>

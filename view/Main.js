@@ -31,12 +31,13 @@ export default class extends Component{
     }
 
     componentDidMount() {
-        let tokenid = AsyncStorage.getItem('tokenid');
-        if(tokenid){
-            this.setState({
-                isLogin:true
-            })
-        }
+        AsyncStorage.getItem('tokenid').then((value)=>{
+            if(value!=null){
+                this.setState({
+                    isLogin:true
+                })
+            }
+        });
     }
 
     getGoden(){
@@ -80,15 +81,15 @@ export default class extends Component{
                         {saoyisao}
                     </View>
                     <View style={[styles.flex_row,styles.header_title]}>
-                        <TouchableHighlight onPress={()=>this.getGoden()} underlayColor="#eee">
+                        <TouchableHighlight onPress={()=>this.getGoden()} underlayColor="transparent">
                             <Text style={[styles.font15,styles.magin_right]}>金官家</Text>
                         </TouchableHighlight>
-                        <TouchableHighlight onPress={()=>this.recomment()} underlayColor="#eee">
+                        <TouchableHighlight onPress={()=>this.recomment()} underlayColor="transparent">
                             <Text style={styles.font15}>推荐客户</Text>
                         </TouchableHighlight>
                     </View>
                     <View style={styles.out}>
-                        <TouchableHighlight onPress={()=>this.userCenter()} underlayColor="#eee">
+                        <TouchableHighlight onPress={()=>this.userCenter()} underlayColor="transparent">
                             <Image source={require('../view/images/account.imageset/c_account.png')}/>
                         </TouchableHighlight>
                     </View>

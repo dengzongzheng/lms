@@ -32,7 +32,8 @@ export default class extends Component{
         // 初始状态
         this.state = {
             userName:'',
-            passWord:''
+            passWord:'',
+            secureTextEntry:false
         };
         this.login = this.login.bind(this);
     }
@@ -97,17 +98,34 @@ export default class extends Component{
         });
     }
 
+    changeModle(){
+        this.setState({
+            secureTextEntry:!this.state.secureTextEntry
+        })
+    }
+
     render(){
+
+        console.log(this.state.secureTextEntry);
+        var eye;
+        if(this.state.secureTextEntry){
+            eye = (<Image source={require('./images/eye_close.imageset/eye_close.png')}
+                    style={[styles.image_right]}/>)
+        }else{
+            eye = (<Image source={require('./images/eye_open.imageset/eye_open.png')}
+                          style={[styles.image_right]}/>);
+        }
+
         return (
             <View>
                 <View style={styles.header}>
-                    <TouchableHighlight onPress={()=>this.gotBack()} underlayColor="#eee" style={[styles.back]}>
+                    <TouchableHighlight onPress={()=>this.gotBack()} underlayColor="transparent" style={[styles.back]}>
                         <Image source={require('./images/back.imageset/back_button.png')} />
                     </TouchableHighlight>
                     <Text style={styles.header_text}>联盟商账号登录</Text>
                 </View>
                 <Image source={require('../view/images/bg.imageset/bg.png')} style={styles.image_Container}>
-                    <View style={[styles.flex_colum,styles.logoContent,{flex:0.8}]}>
+                    <View style={[styles.flex_colum,styles.logoContent,{flex:1}]}>
                         <Image source={require('../view/images/logincon.appiconset/120x120.png')}></Image>
                         <Text style={styles.logo_text}>联盟商</Text>
                     </View>
@@ -121,8 +139,10 @@ export default class extends Component{
                         <View style={[styles.flex_row,{justifyContent:'center',alignItems:'center'}]}>
                             <View style={[styles.flex_row,styles.user_input_container]}>
                                 <Image source={require('./images/lock-b.imageset/lock_b.png')} style={[styles.image_common]}/>
-                                <TextInput style={[styles.user_input,styles.flex_row]} onChange={(event)=>this.setPassWord(event.nativeEvent.text)} secureTextEntry={true} placeholder='请输入您的密码'/>
-                                <Image source={require('./images/eye_close.imageset/eye_close.png')} style={[styles.image_right]}/>
+                                <TextInput style={[styles.user_input,styles.flex_row]} onChange={(event)=>this.setPassWord(event.nativeEvent.text)} secureTextEntry={this.state.secureTextEntry} placeholder='请输入您的密码'/>
+                                <TouchableHighlight onPress={()=>this.changeModle()} underlayColor="transparent">
+                                    {eye}
+                                </TouchableHighlight>
                             </View>
                         </View>
                         <View style={[styles.flex_row,styles.password_forget]}>
@@ -130,7 +150,7 @@ export default class extends Component{
                              <View style={[styles.password_forget_text_view]}><Text style={styles.password_forget_text}>忘记密码</Text></View>
                         </View>
                     </View>
-                    <View style={styles.flex_colum}>
+                    <View style={[styles.flex_colum,{flex:1.5}]}>
                         <TouchableHighlight onPress={()=>{this.login()}} underlayColor="#eee">
                             <View style={styles.loginButton}>
                                 <Text style={styles.button_text}>登录</Text>
@@ -171,10 +191,11 @@ const styles = StyleSheet.create({
     logo_text:{
         fontSize:15,
         fontWeight:'bold',
-        marginTop:20
+        marginTop:20,
+        backgroundColor:'transparent'
     },
     logoContent:{
-
+        marginTop:20,
         justifyContent:'center',
         alignItems:'center'
     },
@@ -187,10 +208,11 @@ const styles = StyleSheet.create({
         borderColor:'darkorange',
         justifyContent:'center',
         alignItems:'center',
-        borderRadius:5
+        borderRadius:5,
+        marginBottom:30
     },
     button_text: {
-      fontSize:16,
+      fontSize:18,
       fontWeight:'bold',
       color:'white'
     },
@@ -228,7 +250,8 @@ const styles = StyleSheet.create({
         borderRadius:5
     },
     password_forget:{
-        height:20
+        height:20,
+        flex:0.5
     },
     password_forget_text_view:{
         marginLeft:10,

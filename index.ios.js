@@ -42,7 +42,7 @@ class main extends Component {
         super(props);
         // 初始状态
         this.state = {
-            login:false
+            login:true
         };
     }
 

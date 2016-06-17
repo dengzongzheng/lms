@@ -20,7 +20,15 @@ export default class extends Component{
     constructor(props) {
         super(props);
         // 初始状态
-        this.state = {};
+        this.state = {
+            sex:true
+        };
+    }
+
+    changeSex(){
+        this.setState({
+            sex:!this.state.sex
+        })
     }
 
     goBack(){
@@ -33,7 +41,7 @@ export default class extends Component{
             <View>
                 <View style={styles.headerContainer}>
                     <View style={[styles.two_box,styles.back]}>
-                        <TouchableHighlight onPress={()=>this.goBack()} underlayColor="#eee">
+                        <TouchableHighlight onPress={()=>this.goBack()} underlayColor="transparent">
                             <Image source={require('./images/back.imageset/back_button.png')}/>
                         </TouchableHighlight>
                     </View>
@@ -52,7 +60,7 @@ export default class extends Component{
                                 <TextInput style={[styles.row_input]} placeholder="请输入姓名"/>
                             </View>
                             <View style={[styles.row_sex]}>
-                                <Switch/>
+                                <Switch value={this.state.sex} style={styles.switch} onValueChange={()=>this.changeSex()} onTintColor="turquoise" tintColor="tomato"/>
                             </View>
                         </View>
                         <View style={[styles.common_row,styles.flex_row]}>
@@ -63,7 +71,7 @@ export default class extends Component{
                                 <TextInput style={[styles.row_input]} placeholder="请输入电话"/>
                             </View>
                             <View style={[styles.row_sex]}>
-                                <Switch/>
+                                <Image source={require('../view/images/phone-book.imageset/Phone-book.png')}/>
                             </View>
                         </View>
                         <View style={[styles.common_row_bz,styles.flex_colum]}>
@@ -151,15 +159,17 @@ const styles = StyleSheet.create({
     },
     row_input:{
         height:30,
-        flex:1
+        flex:1,
+        fontSize:15
     },
     row_input_bz:{
-        height:60,
+        height:80,
         flex:1,
         borderWidth:Util.pixel,
         borderColor:'#eee',
         marginLeft:20,
-        marginRight:10
+        marginRight:10,
+        fontSize:15
     },
     submit_Buttom:{
         justifyContent:'center',
@@ -177,6 +187,9 @@ const styles = StyleSheet.create({
     },
     font15:{
         fontSize:15
+    },
+    switch:{
+
     }
 
 });

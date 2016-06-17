@@ -109,14 +109,14 @@ export default class extends Component{
                     <Text style={styles.fontWhite}>{this.state.mobile}</Text></View>
             );
             logout = (
-                <TouchableHighlight onPress={()=>this.logOut()}   style={styles.flex_row}>
+                <TouchableHighlight onPress={()=>this.logOut()} underlayColor="transparent"  style={styles.flex_row}>
                     <View style={[styles.logout,styles.flex_row]}>
                         <Text style={[styles.logout_text]}>退出登录</Text>
                     </View>
                 </TouchableHighlight>
             );
         }else{
-            header = (<TouchableHighlight onPress={()=>this.goLogin()} underlayColor="red"><View style={styles.loginButton}><Text style={styles.fontWhite}>马上登录</Text></View></TouchableHighlight>);
+            header = (<TouchableHighlight onPress={()=>this.goLogin()} underlayColor="transparent"><View style={styles.loginButton}><Text style={styles.fontWhite}>马上登录</Text></View></TouchableHighlight>);
         }
 
         return(
@@ -124,12 +124,12 @@ export default class extends Component{
                     <View style={[styles.flex_colum,styles.headerContianer]}>
                             <Image source={require('../view/images/defualt_head.imageset/defualt_head.png')}/>
                              {header}
-                            <TouchableHighlight onPress={()=>this.goBack()} underlayColor="#eee" style={[styles.back]}>
+                            <TouchableHighlight onPress={()=>this.goBack()} underlayColor="transparent" style={[styles.back]}>
                                 <Image source={require('../view/images/back.imageset/back_button.png')} style={[]}/>
                             </TouchableHighlight>
                     </View>
                     <View style={[styles.flex_colum,styles.contentContianer]}>
-                        <TouchableHighlight underlayColor="#eee" style={styles.flex_row} onPress={()=>this.childNumber()}>
+                        <TouchableHighlight underlayColor="transparent" style={styles.flex_row} onPress={()=>this.childNumber()}>
                             <View style={[styles.flex_row,styles.row_box]}>
                                 <View style={[styles.flex_row,{alignItems:'center'}]}>
                                     <Image source={require('../view/images/account.imageset/c_account.png')}
@@ -140,7 +140,7 @@ export default class extends Component{
                             </View>
                         </TouchableHighlight>
 
-                        <TouchableHighlight underlayColor="#eee" style={styles.flex_row} onPress={()=>this.myCode()}>
+                        <TouchableHighlight underlayColor="transparent" style={styles.flex_row} onPress={()=>this.myCode()}>
                             <View style={[styles.flex_row,styles.row_box]}>
                                 <View style={[styles.flex_row,{alignItems:'center'}]}>
                                     <Image source={require('../view/images/QRCode.imageset/QR_code.png')}
@@ -151,7 +151,7 @@ export default class extends Component{
                             </View>
                         </TouchableHighlight>
 
-                        <TouchableHighlight underlayColor="#eee" style={styles.flex_row} onPress={()=>this.changePassword()}>
+                        <TouchableHighlight underlayColor="transparent" style={styles.flex_row} onPress={()=>this.changePassword()}>
                             <View style={[styles.flex_row,styles.row_box]}>
                                 <View style={[styles.flex_row,{alignItems:'center'}]}>
                                     <Image source={require('../view/images/lock.imageset/lock.png')}
@@ -162,7 +162,7 @@ export default class extends Component{
                             </View>
                         </TouchableHighlight>
 
-                        <TouchableHighlight underlayColor="#eee" style={styles.flex_row} onPress={()=>this.checkVersion()}>
+                        <TouchableHighlight underlayColor="transparent" style={styles.flex_row} onPress={()=>this.checkVersion()}>
                             <View style={[styles.flex_row,styles.row_box]}>
                                 <View style={[styles.flex_row,{alignItems:'center'}]}>
                                     <Image source={require('../view/images/version.imageset/flush.png')}
