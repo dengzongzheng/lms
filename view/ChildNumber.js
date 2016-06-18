@@ -4,7 +4,8 @@ import {
     Text,
     StyleSheet,
     TouchableHighlight,
-    Image
+    Image,
+    AsyncStorage
 } from 'react-native'
 
 'use strict';
@@ -12,13 +13,17 @@ import {
 import Util from './util/Util'
 import MyAddQRCode from './MyAddQRCode'
 
+var getUnionChildren = Util.api+"/jyhouse-union/v1/provider/1.0/getUnionChildren/";
+
 export default class extends Component{
 
     // 构造
     constructor(props) {
         super(props);
         // 初始状态
-        this.state = {};
+        this.state = {
+            childrens:[]
+        };
     }
 
     goBack(){
@@ -30,6 +35,36 @@ export default class extends Component{
             component:MyAddQRCode,
             title:'新增账号二维码',
             navigationBarHidden:false
+        });
+    }
+
+    componentDidMount() {
+
+        AsyncStorage.getItem("unionBusinessId").then((value)=>{
+            if(null!=value){
+                var url = getUnionChildren+value;
+                var childrens = [];
+                console.log(url);
+                fetch(url).then((response)=> {
+                    if(response.status==200){
+                       response.json().then((responseData)=>{
+                           for(var i in responseData){
+                               console.log(responseData);
+                               var children=(
+                                   <View key={responseData[i].childrenTel} style={[styles.row_common,styles.flex_row]}>
+                                       <Text style={[styles.tel_text]} >{responseData[i].childrenTel}</Text>
+                                       <Text style={[styles.name_text]}>{responseData[i].childrenName}</Text>
+                                   </View>
+                               );
+                               childrens.push(children);
+                           }
+                       });
+                    }
+                });
+                this.setState({
+                    childrens:childrens
+                })
+            }
         });
     }
 
@@ -52,10 +87,7 @@ export default class extends Component{
                     </TouchableHighlight>
                 </View>
                 <View style={[styles.flex_colum]}>
-                    <View style={[styles.row_common,styles.flex_row]}>
-                        <Text style={[styles.tel_text]} >18511898011</Text>
-                        <Text style={[styles.name_text]}>哈哈这是我的测试</Text>
-                    </View>
+                    {this.state.childrens}
                 </View>
             </View>
         );
@@ -107,7 +139,7 @@ const styles = StyleSheet.create({
         paddingBottom:10
     },
     tel_text:{
-        marginLeft:10,
+        marginLeft:10
     },
     name_text:{
         marginLeft:30
