@@ -160,7 +160,7 @@ const styles = StyleSheet.create({
     row_input:{
         height:30,
         flex:1,
-        fontSize:15
+        fontSize:13
     },
     row_input_bz:{
         height:80,
@@ -169,7 +169,7 @@ const styles = StyleSheet.create({
         borderColor:'#eee',
         marginLeft:20,
         marginRight:10,
-        fontSize:15
+        fontSize:13
     },
     submit_Buttom:{
         justifyContent:'center',

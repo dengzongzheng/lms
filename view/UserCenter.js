@@ -170,7 +170,7 @@ export default class extends Component{
                                            style={styles.image_box}/>
                                     <Text style={[styles.row_box_text]}>检测新版本</Text>
                                 </View>
-                                <Image source={require('../view/images/rightbutton.imageset/rightbutton.png')} style={styles.image_box}/>
+                                <Text style={[styles.version_box]}>V1.0.0</Text>
                             </View>
                         </TouchableHighlight>
                     </View>
@@ -258,6 +258,11 @@ const styles = StyleSheet.create({
         borderRadius:3,
         paddingLeft:10,
         paddingRight:10
+    },
+    version_box:{
+        marginRight:10,
+        fontSize:12,
+        color:"#d8bfd8"
     }
 
 });
