@@ -38,6 +38,17 @@ export default class extends Component{
         this.login = this.login.bind(this);
     }
 
+    componentDidMount() {
+
+        AsyncStorage.getItem("mogile").then((value)=>{
+            if(value!=null){
+                this.setState({
+                    userName:value
+                })
+            }
+        });
+    }
+
     login(){
 
          if(!this.state.userName){
@@ -133,7 +144,7 @@ export default class extends Component{
                         <View style={[styles.flex_row,{justifyContent:'center',alignItems:'center'}]}>
                             <View style={[styles.flex_row,styles.user_input_container]}>
                                 <Image source={require('./images/phone.imageset/phone.png')} style={[styles.image_common]}/>
-                                <TextInput style={[styles.user_input,styles.flex_row]} maxLength={11} onChange={(event)=>this.setUserName(event.nativeEvent.text)} keyboardType="numeric" placeholder='请输入您的电话'/>
+                                <TextInput style={[styles.user_input,styles.flex_row]} maxLength={11} value={this.state.userName} onChange={(event)=>this.setUserName(event.nativeEvent.text)} keyboardType="numeric" placeholder='请输入您的电话'/>
                             </View>
                         </View>
                         <View style={[styles.flex_row,{justifyContent:'center',alignItems:'center'}]}>

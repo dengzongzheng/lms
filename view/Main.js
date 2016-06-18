@@ -6,7 +6,8 @@ import {
     TouchableHighlight,
     Image,
     AlertIOS,
-    AsyncStorage
+    AsyncStorage,
+    Linking
 } from 'react-native'
 
 'use district';
@@ -14,6 +15,10 @@ import {
 import Util from '../view/util/Util'
 import Recomment from '../view/Recommen'
 import UserCenter from '../view/UserCenter'
+
+
+var getGolderURl='jyhouse-union/v1/provider/1.0/getGoldenByUnionId/';
+var getCustomerByUnionId ='jyhouse-union/v1/provider/1.0/getCustomerByUnionId/';
 
 export default class extends Component{
 
@@ -26,29 +31,79 @@ export default class extends Component{
         super(props);
         // 初始状态
         this.state = {
-            isLogin:false
+            isLogin:false,
+            customers:[]
         };
     }
 
     componentDidMount() {
-        AsyncStorage.getItem('tokenid').then((value)=>{
+        AsyncStorage.getItem('unionBusinessId').then((value)=>{
             if(value!=null){
+                const url = Util.api+getCustomerByUnionId+value;
+                console.log(url);
+                var customers = [];
+                fetch(url).then((response)=>{
+                    if(response.status==200){
+                        response.json().then((responseData)=>{
+
+                            for(var i in responseData){
+                                console.log(responseData[i].customerName);
+                              var customer = (
+                                  <View key={responseData[i].customerName} style={[styles.contentContainer,styles.flex_colum]}>
+                                      <View style={[styles.flex_row,styles.row]}><Text>{responseData[i].customerName}{(responseData[i].sex==1?'(男)':'(女)')}[{responseData[i].pushTel}]</Text></View>
+                                      <View style={[styles.flex_row,styles.row]}><Text>{responseData[i].customerTel}</Text></View>
+                                      <View style={[styles.flex_row,styles.row]}><Text>备注:{responseData[i].remark}</Text></View>
+                                      <View style={[styles.flex_row,styles.row]}><Text>{responseData[i].createTime}</Text></View>
+                                  </View>
+                              );
+                                customers.push(customer);
+                            }
+                        });
+                    }
+                });
                 this.setState({
-                    isLogin:true
-                })
+                    isLogin:true,
+                    customers:customers
+                });
+
+            }else{
+                this.setState({
+                    isLogin:false
+                });
             }
         });
     }
 
+    callGolden(){
+        return Linking.openURL('tel:18610530276');
+    }
+
     getGoden(){
-        AlertIOS.alert(
-            "金管家XXX为您服务",
-            "电话:18511898011",
-            [
-                {text: '取消', onPress: () => console.log('Button Pressed!')},
-                {text: '拨打电话', onPress: () => console.log('Button Pressed!')}
-            ]
-        )
+
+
+        AsyncStorage.getItem("unionBusinessId").then((value)=>{
+           if(value!=null){
+               const url = Util.api+getGolderURl+value;
+               console.log(url);
+               fetch(url).then((response)=>{
+                   if(response.status==200){
+                       response.json().then((responseData)=>{
+                           console.log(responseData.tel);
+                           if(responseData.goldenName){
+                               AlertIOS.alert(
+                                   "金管家"+responseData.goldenName+"为您服务",
+                                   "电话:"+responseData.tel,
+                                   [
+                                       {text: '取消', onPress: () => console.log('Button Pressed!')},
+                                       {text: '拨打电话', onPress: () => this.callGolden()}
+                                   ]
+                               )
+                           }
+                       })
+                   }
+               });
+           }
+        });
     }
 
     recomment(){
@@ -80,8 +135,8 @@ export default class extends Component{
                     <View style={styles.out}>
                         {saoyisao}
                     </View>
-                    <View style={[styles.flex_row,styles.header_title]}>
-                        <TouchableHighlight onPress={()=>this.getGoden()} underlayColor="transparent">
+                    <View style={[styles.flex_row,styles.header_title]} accessible={false}>
+                        <TouchableHighlight onPress={()=>this.getGoden()}  underlayColor="transparent">
                             <Text style={[styles.font15,styles.magin_right]}>金官家</Text>
                         </TouchableHighlight>
                         <TouchableHighlight onPress={()=>this.recomment()} underlayColor="transparent">
@@ -95,7 +150,7 @@ export default class extends Component{
                     </View>
                 </View>
                 <View>
-
+                    {this.state.customers}
                 </View>
             </View>
         )
@@ -136,5 +191,16 @@ const styles = StyleSheet.create({
         alignItems:'stretch',
         justifyContent:'center',
         marginLeft:20
+    },
+    contentContainer:{
+        marginTop:5,
+        marginBottom:5,
+        marginLeft:10,
+        marginRight:10,
+        borderBottomWidth:Util.pixel,
+        borderBottomColor:"#d8bfd8"
+    },
+    row:{
+        paddingBottom:8
     }
 });

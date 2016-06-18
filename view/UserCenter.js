@@ -87,6 +87,7 @@ export default class extends Component{
     logOut(){
 
         AsyncStorage.removeItem('tokenid');
+        AsyncStorage.removeItem('unionBusinessId');
         this.setState({
             isLogin:false
         });
