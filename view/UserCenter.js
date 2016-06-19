@@ -154,7 +154,7 @@ export default class extends Component{
             logout = (
                 <TouchableHighlight onPress={()=>this.logOut()} underlayColor="transparent"  style={styles.flex_row}>
                     <View style={[styles.logout,styles.flex_row]}>
-                        <Text style={[styles.logout_text]}>退出登录</Text>
+                        <Text style={[styles.logout_text,styles.flex_row]}>退出登录</Text>
                     </View>
                 </TouchableHighlight>
             );
@@ -163,8 +163,8 @@ export default class extends Component{
         }
 
         return(
-                <View style={[styles.flex_colum]}>
-                    <View style={[styles.flex_colum,styles.headerContianer]}>
+                <View style={[styles.flex_column]}>
+                    <View style={[styles.flex_column,styles.headerContianer]}>
                             <View style={[styles.default_head]}>
                                 <Image source={require('../view/images/defualt_head.imageset/defualt_head.png')}/>
                             </View>
@@ -173,7 +173,7 @@ export default class extends Component{
                                 <Image source={require('../view/images/return.imageset/return.png')} style={[]}/>
                             </TouchableHighlight>
                     </View>
-                    <View style={[styles.flex_colum,styles.contentContianer]}>
+                    <View style={[styles.flex_column,styles.contentContianer]}>
                         <TouchableHighlight underlayColor="transparent" style={styles.flex_row} onPress={()=>this.childNumber()}>
                             <View style={[styles.flex_row,styles.row_box]}>
                                 <View style={[styles.flex_row,{alignItems:'center'}]}>
@@ -218,9 +218,8 @@ export default class extends Component{
                             </View>
                         </TouchableHighlight>
                     </View>
-                    <View style={[styles.flex_row,{backgroundColor:'white'}]}>
+                    <View style={[styles.flex_row,{backgroundColor:'#eee'}]}>
                         {logout}
-                        <View style={styles.row}/>
                     </View>
                 </View>
 
@@ -273,8 +272,9 @@ const styles = StyleSheet.create({
         height:30,
         justifyContent:'center',
         alignItems:'center',
-        backgroundColor:'white'
-
+        backgroundColor:'white',
+        width:Util.size.width-20,
+        marginTop:10
     },
     logout_text:{
         fontSize:15,
@@ -291,7 +291,9 @@ const styles = StyleSheet.create({
         marginTop:10
     },
     fontWhite:{
-        color:'white'
+        color:'white',
+        fontSize:15,
+        paddingBottom:2
     },
     loginButton:{
         borderColor:'white',
