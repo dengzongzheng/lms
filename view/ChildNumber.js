@@ -34,7 +34,7 @@ export default class extends Component{
         this.props.navigator.push({
             component:MyAddQRCode,
             title:'新增账号二维码',
-            navigationBarHidden:false
+            navigationBarHidden:true
         });
     }
 

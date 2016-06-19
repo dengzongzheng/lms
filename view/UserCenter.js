@@ -265,7 +265,7 @@ const styles = StyleSheet.create({
     },
     row_box_text:{
 
-        fontSize:14,
+        fontSize:15,
         textAlign:'center',
         alignItems:'flex-start'
     },
@@ -277,7 +277,7 @@ const styles = StyleSheet.create({
 
     },
     logout_text:{
-        fontSize:14,
+        fontSize:15,
         textAlign:'center',
         backgroundColor:'white'
     },
