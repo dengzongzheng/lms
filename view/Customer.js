@@ -7,7 +7,8 @@ import {
     Image,
     AlertIOS,
     AsyncStorage,
-    Linking
+    Linking,
+    ScrollView
 } from 'react-native'
 
 'use district';

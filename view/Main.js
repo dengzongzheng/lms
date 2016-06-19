@@ -7,7 +7,8 @@ import {
     Image,
     AlertIOS,
     AsyncStorage,
-    Linking
+    Linking,
+    ScrollView
 } from 'react-native'
 
 'use district';
@@ -165,7 +166,8 @@ export default class extends Component{
 
 
         return(
-            <View>
+            <View style={styles.flex_colum}>
+                <View>
                 <View style={[styles.headerContainer,styles.flex_row]}>
                     <View style={styles.out}>
                         {saoyisao}
@@ -180,9 +182,10 @@ export default class extends Component{
                         </TouchableHighlight>
                     </View>
                 </View>
-                <View>
+                    </View>
+                <ScrollView style={styles.flex_column}>
                     <Customer responseData={this.state.customers}/>
-                </View>
+                </ScrollView>
             </View>
         )
     }
