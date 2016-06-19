@@ -79,7 +79,9 @@ export default class extends Component{
                          ref:'nav',
                          passProps:{
                              tokenid:responseData.tokenid,
-                             unionBusinessId:responseData.authUser.unionBusinessId
+                             unionBusinessId:responseData.authUser.unionBusinessId,
+                             unionBusinessName:responseData.authUser.unionBusinessName,
+                             mobile:responseData.authUser.mobile
                          }
                      });
 

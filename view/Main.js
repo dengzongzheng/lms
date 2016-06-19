@@ -125,7 +125,13 @@ export default class extends Component{
         this.props.navigator.push({
             component: UserCenter,
             title: '',
-            navigationBarHidden: true
+            navigationBarHidden: true,
+            passProps:{
+                tokenid:this.props.tokenid,
+                unionBusinessId:this.props.unionBusinessId,
+                unionBusinessName:this.props.unionBusinessName,
+                mobile:this.props.mobile
+            }
         });
 
     }

@@ -33,23 +33,15 @@ export default class extends Component{
     }
 
     componentDidMount() {
-         AsyncStorage.getItem('tokenid').then((value)=>{
-            if(value!=null){
-                AsyncStorage.getItem('unionBusinessName').then((value)=>{
-                    this.setState({
-                        unionBusinessName:value,
-                    });
-                });
-                AsyncStorage.getItem('mobile').then((value)=>{
-                    this.setState({
-                        mobile:value
-                    });
-                });
-                this.setState({
-                    isLogin:true
-                });
-            }
-        });
+        if(this.props.tokenid!=""){
+            this.setState({
+                isLogin:true
+            });
+        }else{
+            this.setState({
+                isLogin:false
+            });
+        }
 
     }
 
@@ -111,10 +103,10 @@ export default class extends Component{
     render(){
         var header;
         let logout = null;
-        if(this.state.isLogin){
+        if(this.props.tokenid!=''){
             header = (
-                <View><Text style={[styles.user_text,styles.fontWhite]}>{this.state.unionBusinessName}</Text>
-                    <Text style={styles.fontWhite}>{this.state.mobile}</Text></View>
+                <View><Text style={[styles.user_text,styles.fontWhite]}>{this.props.unionBusinessName}</Text>
+                    <Text style={styles.fontWhite}>{this.props.mobile}</Text></View>
             );
             logout = (
                 <TouchableHighlight onPress={()=>this.logOut()} underlayColor="transparent"  style={styles.flex_row}>
