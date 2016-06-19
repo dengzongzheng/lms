@@ -4,7 +4,8 @@ import {
     StyleSheet,
     Text,
     View,
-    NavigatorIOS
+    NavigatorIOS,
+    AsyncStorage
 } from 'react-native';
 
 'use district';
@@ -42,12 +43,26 @@ class main extends Component {
         super(props);
         // 初始状态
         this.state = {
-            login:true
+            isLogin:false
         };
     }
 
+    componentWillMount() {
+        AsyncStorage.getItem("tokenid").then((value)=>{
+            if(value!=null){
+                this.setState({
+                    login:true
+                })
+            }else{
+                this.setState({
+                    login:false
+                })
+            }
+        });
+    }
+
     render() {
-        const mains = this.state.login ? Login : Main;
+        const mains = this.state.isLogin ? Main : Login;
         return (
             <NavigatorIOS
                 initialRoute={{
@@ -72,18 +87,18 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#F5FCFF',
+        backgroundColor: '#F5FCFF'
     },
     welcome: {
         fontSize: 20,
         textAlign: 'center',
-        margin: 10,
+        margin: 10
     },
     instructions: {
         textAlign: 'center',
         color: '#333333',
-        marginBottom: 5,
-    },
+        marginBottom: 5
+    }
 });
 
 AppRegistry.registerComponent('lms', () => main);

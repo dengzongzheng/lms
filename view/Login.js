@@ -42,8 +42,7 @@ export default class extends Component{
     }
 
     componentDidMount() {
-
-        AsyncStorage.getItem("mogile").then((value)=>{
+        AsyncStorage.getItem("mobile").then((value)=>{
             if(value!=null){
                 this.setState({
                     userName:value
@@ -77,7 +76,11 @@ export default class extends Component{
                          component:Main,
                          title:'',
                          navigationBarHidden:true,
-                         ref:'nav'
+                         ref:'nav',
+                         passProps:{
+                             tokenid:responseData.tokenid,
+                             unionBusinessId:responseData.authUser.unionBusinessId
+                         }
                      });
 
                  });
@@ -108,7 +111,11 @@ export default class extends Component{
         this.props.navigator.push({
             component:Main,
             title:'',
-            navigationBarHidden:true
+            navigationBarHidden:true,
+            passProps:{
+                tokenid:'',
+                unionBusinessId:''
+            }
         });
     }
 

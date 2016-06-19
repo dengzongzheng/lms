@@ -6,7 +6,8 @@ import {
     Text,
     TouchableHighlight,
     NavigatorIOS,
-    AsyncStorage
+    AsyncStorage,
+    AlertIOS
 } from 'react-native'
 
 'use district';
@@ -85,12 +86,18 @@ export default class extends Component{
     }
 
     logOut(){
-
-        AsyncStorage.removeItem('tokenid');
-        AsyncStorage.removeItem('unionBusinessId');
-        this.setState({
-            isLogin:false
-        });
+        AlertIOS.alert('确定要退出登录吗','',
+            [
+                {text: '取消', onPress: () =>{}},
+                {text: '确定', onPress: () => {
+                    AsyncStorage.removeItem('tokenid');
+                    AsyncStorage.removeItem('unionBusinessId');
+                    this.setState({
+                        isLogin:false
+                    });
+                }}
+            ]
+        );
     }
 
     goLogin(){

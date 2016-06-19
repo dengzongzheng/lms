@@ -15,6 +15,7 @@ import {
 import Util from '../view/util/Util'
 import Recomment from '../view/Recommen'
 import UserCenter from '../view/UserCenter'
+import Customer from '../view/Customer'
 
 
 var getGolderURl='jyhouse-union/v1/provider/1.0/getGoldenByUnionId/';
@@ -34,44 +35,32 @@ export default class extends Component{
             isLogin:false,
             customers:[]
         };
+        this.componentDidMount = this.componentDidMount.bind(this);
     }
 
     componentDidMount() {
-        AsyncStorage.getItem('unionBusinessId').then((value)=>{
+            let value = this.props.unionBusinessId;
             if(value!=null){
                 const url = Util.api+getCustomerByUnionId+value;
                 console.log(url);
-                var customers = [];
                 fetch(url).then((response)=>{
                     if(response.status==200){
                         response.json().then((responseData)=>{
-
-                            for(var i in responseData){
-                                console.log(responseData[i].customerName);
-                              var customer = (
-                                  <View key={responseData[i].customerName} style={[styles.contentContainer,styles.flex_colum]}>
-                                      <View style={[styles.flex_row,styles.row]}><Text>{responseData[i].customerName}{(responseData[i].sex==1?'(男)':'(女)')}[{responseData[i].pushTel}]</Text></View>
-                                      <View style={[styles.flex_row,styles.row]}><Text>{responseData[i].customerTel}</Text></View>
-                                      <View style={[styles.flex_row,styles.row]}><Text>备注:{responseData[i].remark}</Text></View>
-                                      <View style={[styles.flex_row,styles.row]}><Text>{responseData[i].createTime}</Text></View>
-                                  </View>
-                              );
-                                customers.push(customer);
-                            }
+                            let value = responseData;
+                            this.setState({
+                                isLogin:true,
+                                customers:value
+                            });
                         });
                     }
-                });
-                this.setState({
-                    isLogin:true,
-                    customers:customers
                 });
 
             }else{
                 this.setState({
-                    isLogin:false
+                    isLogin:false,
+                    customers:[]
                 });
             }
-        });
     }
 
     callGolden(){
@@ -80,26 +69,42 @@ export default class extends Component{
 
     getGoden(){
 
-
         AsyncStorage.getItem("unionBusinessId").then((value)=>{
+           const  unionBusinessId = value;
            if(value!=null){
-               const url = Util.api+getGolderURl+value;
-               console.log(url);
-               fetch(url).then((response)=>{
-                   if(response.status==200){
-                       response.json().then((responseData)=>{
-                           console.log(responseData.tel);
-                           if(responseData.goldenName){
-                               AlertIOS.alert(
-                                   "金管家"+responseData.goldenName+"为您服务",
-                                   "电话:"+responseData.tel,
-                                   [
-                                       {text: '取消', onPress: () => console.log('Button Pressed!')},
-                                       {text: '拨打电话', onPress: () => this.callGolden()}
-                                   ]
-                               )
+               console.log(value);
+               AsyncStorage.getItem("goldenData").then((value)=>{
+                   console.log(value);
+                   if(null!=value){
+                       AlertIOS.alert(
+                           "金管家"+value.goldenName+"为您服务",
+                           "电话:"+value.tel,
+                           [
+                               {text: '取消', onPress: () => console.log('Button Pressed!')},
+                               {text: '拨打电话', onPress: () => this.callGolden()}
+                           ]
+                       )
+                   }else{
+                       const url = Util.api+getGolderURl+unionBusinessId;
+                       console.log(url);
+                       fetch(url).then((response)=>{
+                           if(response.status==200){
+                               response.json().then((responseData)=>{
+                                   if(responseData.goldenName){
+                                       //  let data = [["goldenData",responseData]];
+                                       // AsyncStorage.multiSet(JSON.stringify(data));
+                                       AlertIOS.alert(
+                                           "金管家"+responseData.goldenName+"为您服务",
+                                           "电话:"+responseData.tel,
+                                           [
+                                               {text: '取消', onPress: () => console.log('Button Pressed!')},
+                                               {text: '拨打电话', onPress: () => this.callGolden()}
+                                           ]
+                                       )
+                                   }
+                               })
                            }
-                       })
+                       });
                    }
                });
            }
@@ -126,8 +131,16 @@ export default class extends Component{
     }
 
     render(){
+        console.log(this.props.tokenid);
+        let saoyisao = this.props.tokenid!=''?null:<Image source={require('./images/saoyisao.imageset/saoyisao.png')}/>;
+        let jgj = this.props.tokenid!=''?<TouchableHighlight onPress={()=>this.getGoden()}  underlayColor="transparent">
+            <Text style={[styles.font15,styles.magin_right]}>金官家</Text>
+        </TouchableHighlight>:<Text style={[styles.font15,styles.magin_right,{color:'darkgrey'}]}>金官家</Text>;
 
-        let saoyisao = this.state.isLogin?null:<Image source={require('./images/saoyisao.imageset/saoyisao.png')}/>;
+        let tjkf = this.props.tokenid!=''?<TouchableHighlight onPress={()=>this.recomment()} underlayColor="transparent">
+            <Text style={styles.font15}>推荐客户</Text>
+        </TouchableHighlight>:<Text style={[styles.font15,{color:'darkgrey'}]}>推荐客户</Text>;
+
 
         return(
             <View>
@@ -136,12 +149,8 @@ export default class extends Component{
                         {saoyisao}
                     </View>
                     <View style={[styles.flex_row,styles.header_title]} accessible={false}>
-                        <TouchableHighlight onPress={()=>this.getGoden()}  underlayColor="transparent">
-                            <Text style={[styles.font15,styles.magin_right]}>金官家</Text>
-                        </TouchableHighlight>
-                        <TouchableHighlight onPress={()=>this.recomment()} underlayColor="transparent">
-                            <Text style={styles.font15}>推荐客户</Text>
-                        </TouchableHighlight>
+                        {jgj}
+                        {tjkf}
                     </View>
                     <View style={styles.out}>
                         <TouchableHighlight onPress={()=>this.userCenter()} underlayColor="transparent">
@@ -150,7 +159,7 @@ export default class extends Component{
                     </View>
                 </View>
                 <View>
-                    {this.state.customers}
+                    <Customer responseData={this.state.customers}/>
                 </View>
             </View>
         )
