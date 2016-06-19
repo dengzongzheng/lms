@@ -662,7 +662,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.dzz;
+				PRODUCT_BUNDLE_IDENTIFIER = com.jyall.LianMengShang;
 				PRODUCT_NAME = "联盟商工具";
 				PROVISIONING_PROFILE = "";
 				TREAT_MISSING_BASELINES_AS_TEST_FAILURES = NO;
@@ -690,7 +690,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.dzz;
+				PRODUCT_BUNDLE_IDENTIFIER = com.jyall.LianMengShang;
 				PRODUCT_NAME = "联盟商工具";
 				PROVISIONING_PROFILE = "";
 				TREAT_MISSING_BASELINES_AS_TEST_FAILURES = NO;
