@@ -585,7 +585,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/lms.app/lms";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/联盟商工具.app/联盟商工具";
 			};
 			name = Debug;
 		};
@@ -598,7 +598,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/lms.app/lms";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/联盟商工具.app/联盟商工具";
 			};
 			name = Release;
 		};
@@ -625,6 +625,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.dzz;
 				PRODUCT_NAME = "联盟商工具";
 				PROVISIONING_PROFILE = "";
+				TREAT_MISSING_BASELINES_AS_TEST_FAILURES = NO;
 				VALID_ARCHS = "arm64 armv7";
 			};
 			name = Debug;
@@ -651,6 +652,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.dzz;
 				PRODUCT_NAME = "联盟商工具";
 				PROVISIONING_PROFILE = "";
+				TREAT_MISSING_BASELINES_AS_TEST_FAILURES = NO;
 				VALID_ARCHS = "arm64 armv7";
 			};
 			name = Release;

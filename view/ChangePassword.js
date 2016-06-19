@@ -85,7 +85,8 @@ const styles = StyleSheet.create({
     back:{
         position:'absolute',
         top:5,
-        left:13
+        left:13,
+        width:40
     },
     title:{
         justifyContent:'center',
@@ -133,7 +134,7 @@ const styles = StyleSheet.create({
         alignItems:'center',
         borderWidth:Util.pixel,
         borderColor:'orangered',
-        height:30,
+        height:40,
         backgroundColor:'orangered',
         width:Util.size.width-20,
         borderRadius:5

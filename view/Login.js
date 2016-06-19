@@ -9,7 +9,8 @@ import {
     TextInput,
     NavigatorIOS,
     AlertIOS,
-    AsyncStorage
+    AsyncStorage,
+    ScrollView
 } from 'react-native'
 
 'use district';
@@ -33,7 +34,9 @@ export default class extends Component{
         this.state = {
             userName:'',
             passWord:'',
-            secureTextEntry:false
+            secureTextEntry:true,
+            isLogin:false,
+            message:''
         };
         this.login = this.login.bind(this);
     }
@@ -117,15 +120,7 @@ export default class extends Component{
 
     render(){
 
-        console.log(this.state.secureTextEntry);
-        var eye;
-        if(this.state.secureTextEntry){
-            eye = (<Image source={require('./images/eye_close.imageset/eye_close.png')}
-                    style={[styles.image_right]}/>)
-        }else{
-            eye = (<Image source={require('./images/eye_open.imageset/eye_open.png')}
-                          style={[styles.image_right]}/>);
-        }
+       var eye  = this.state.secureTextEntry?require('./images/eye_close.imageset/eye_close.png'):require('./images/icon_eye_disable.imageset/icon_eye_disable.png');
 
         return (
             <View>
@@ -137,38 +132,45 @@ export default class extends Component{
                 </View>
                 <Image source={require('../view/images/bg.imageset/bg.png')} style={styles.image_Container}>
                     <View style={[styles.flex_colum,styles.logoContent,{flex:1}]}>
-                        <Image source={require('../view/images/logincon.appiconset/120x120.png')}></Image>
+                        <Image source={require('../view/images/logincon.appiconset/120x120.png')}/>
                         <Text style={styles.logo_text}>联盟商</Text>
                     </View>
                     <View style={styles.flex_colum}>
                         <View style={[styles.flex_row,{justifyContent:'center',alignItems:'center'}]}>
                             <View style={[styles.flex_row,styles.user_input_container]}>
                                 <Image source={require('./images/phone.imageset/phone.png')} style={[styles.image_common]}/>
-                                <TextInput style={[styles.user_input,styles.flex_row]} maxLength={11} value={this.state.userName} onChange={(event)=>this.setUserName(event.nativeEvent.text)} keyboardType="numeric" placeholder='请输入您的电话'/>
+                                <TextInput style={[styles.user_input,styles.flex_row]} maxLength={11} value={this.state.userName} onChange={(event)=>this.setUserName(event.nativeEvent.text)} returnKeyType='done' keyboardType="numbers-and-punctuation" placeholder='请输入您的电话'/>
                             </View>
                         </View>
                         <View style={[styles.flex_row,{justifyContent:'center',alignItems:'center'}]}>
                             <View style={[styles.flex_row,styles.user_input_container]}>
                                 <Image source={require('./images/lock-b.imageset/lock_b.png')} style={[styles.image_common]}/>
-                                <TextInput style={[styles.user_input,styles.flex_row]} onChange={(event)=>this.setPassWord(event.nativeEvent.text)} secureTextEntry={this.state.secureTextEntry} placeholder='请输入您的密码'/>
+                                <TextInput style={[styles.user_input,styles.flex_row]} onChange={(event)=>this.setPassWord(event.nativeEvent.text)} keyboardType="default" returnKeyType='done' secureTextEntry={this.state.secureTextEntry} placeholder='请输入您的密码'/>
                                 <TouchableHighlight onPress={()=>this.changeModle()} underlayColor="transparent">
-                                    {eye}
+                                    <Image source={eye} style={[styles.image_right]}/>
                                 </TouchableHighlight>
                             </View>
                         </View>
                         <View style={[styles.flex_row,styles.password_forget]}>
-                             <View style={styles.flex_colum}></View>
+                             <View style={styles.flex_colum}/>
                              <View style={[styles.password_forget_text_view]}><Text style={styles.password_forget_text}>忘记密码</Text></View>
                         </View>
                     </View>
                     <View style={[styles.flex_colum,{flex:1.5}]}>
-                        <TouchableHighlight onPress={()=>{this.login()}} underlayColor="#eee">
+                        <TouchableHighlight onPress={()=>{this.login()}} underlayColor="transparent">
                             <View style={styles.loginButton}>
                                 <Text style={styles.button_text}>登录</Text>
                             </View>
                         </TouchableHighlight>
                     </View>
                 </Image>
+                {
+                    this.state.isLogin?null:
+                    <View style={styles.message}>
+                        <Text>{this.state.message}</Text>
+                    </View>
+                }
+
             </View>
         );
     }
@@ -281,7 +283,13 @@ const styles = StyleSheet.create({
     back:{
         position:'absolute',
         left:13,
-        top:18
+        top:18,
+        width:40
+    },
+    message:{
+        position:'absolute',
+        left:Util.size.width/2,
+        top:50
     }
 
 });

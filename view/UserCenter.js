@@ -123,10 +123,12 @@ export default class extends Component{
         return(
                 <View style={[styles.flex_colum]}>
                     <View style={[styles.flex_colum,styles.headerContianer]}>
-                            <Image source={require('../view/images/defualt_head.imageset/defualt_head.png')}/>
-                             {header}
+                            <View style={[styles.default_head]}>
+                                <Image source={require('../view/images/defualt_head.imageset/defualt_head.png')}/>
+                            </View>
+                                {header}
                             <TouchableHighlight onPress={()=>this.goBack()} underlayColor="transparent" style={[styles.back]}>
-                                <Image source={require('../view/images/back.imageset/back_button.png')} style={[]}/>
+                                <Image source={require('../view/images/return.imageset/return.png')} style={[]}/>
                             </TouchableHighlight>
                     </View>
                     <View style={[styles.flex_colum,styles.contentContianer]}>
@@ -176,7 +178,7 @@ export default class extends Component{
                     </View>
                     <View style={[styles.flex_row,{backgroundColor:'white'}]}>
                         {logout}
-                        <View style={styles.row}></View>
+                        <View style={styles.row}/>
                     </View>
                 </View>
 
@@ -221,7 +223,7 @@ const styles = StyleSheet.create({
     },
     row_box_text:{
 
-        fontSize:12,
+        fontSize:14,
         textAlign:'center',
         alignItems:'flex-start'
     },
@@ -233,14 +235,15 @@ const styles = StyleSheet.create({
 
     },
     logout_text:{
-        fontSize:13,
+        fontSize:14,
         textAlign:'center',
         backgroundColor:'white'
     },
     back:{
         position:'absolute',
         top:20,
-        left:30
+        left:30,
+        width:40
     },
     user_text:{
         marginTop:10
@@ -263,6 +266,12 @@ const styles = StyleSheet.create({
         marginRight:10,
         fontSize:12,
         color:"#d8bfd8"
+    },
+    default_head:{
+        padding:10,
+        borderWidth:1,
+        borderColor:'aliceblue',
+        borderRadius:50
     }
 
 });
