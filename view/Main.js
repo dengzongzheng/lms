@@ -8,7 +8,8 @@ import {
     AlertIOS,
     AsyncStorage,
     Linking,
-    ScrollView
+    ScrollView,
+    ActivityIndicatorIOS
 } from 'react-native'
 
 'use district';
@@ -36,7 +37,8 @@ export default class extends Component{
         // 初始状态
         this.state = {
             isLogin:false,
-            customers:[]
+            customers:[],
+            isLoading:true
         };
         this.componentDidMount = this.componentDidMount.bind(this);
     }
@@ -45,14 +47,14 @@ export default class extends Component{
             let value = this.props.unionBusinessId;
             if(value!=null){
                 const url = Util.api+getCustomerByUnionId+value;
-                console.log(url);
                 fetch(url).then((response)=>{
                     if(response.status==200){
                         response.json().then((responseData)=>{
                             let value = responseData;
                             this.setState({
                                 isLogin:true,
-                                customers:value
+                                customers:value,
+                                isLoading:true
                             });
                         });
                     }
@@ -61,7 +63,8 @@ export default class extends Component{
             }else{
                 this.setState({
                     isLogin:false,
-                    customers:[]
+                    customers:[],
+                    isLoading:true
                 });
             }
     }
@@ -168,21 +171,21 @@ export default class extends Component{
         return(
             <View style={styles.flex_colum}>
                 <View>
-                <View style={[styles.headerContainer,styles.flex_row]}>
-                    <View style={styles.out}>
-                        {saoyisao}
-                    </View>
-                    <View style={[styles.flex_row,styles.header_title]} accessible={false}>
-                        {jgj}
-                        {tjkf}
-                    </View>
-                    <View style={styles.out}>
-                        <TouchableHighlight onPress={()=>this.userCenter()} underlayColor="transparent">
-                            <Image source={require('../view/images/account.imageset/c_account.png')}/>
-                        </TouchableHighlight>
+                    <View style={[styles.headerContainer,styles.flex_row]}>
+                        <View style={styles.out}>
+                            {saoyisao}
+                        </View>
+                        <View style={[styles.flex_row,styles.header_title]} accessible={false}>
+                            {jgj}
+                            {tjkf}
+                        </View>
+                        <View style={styles.out}>
+                            <TouchableHighlight onPress={()=>this.userCenter()} underlayColor="transparent">
+                                <Image source={require('../view/images/account.imageset/c_account.png')}/>
+                            </TouchableHighlight>
+                        </View>
                     </View>
                 </View>
-                    </View>
                 <ScrollView style={styles.flex_column}>
                     <Customer responseData={this.state.customers}/>
                 </ScrollView>

@@ -13,7 +13,8 @@ import {
     ScrollView,
     Modal,
     ActivityIndicatorIOS,
-    DeviceEventEmitter
+    DeviceEventEmitter,
+    Animated
 } from 'react-native'
 
 'use district';
@@ -42,11 +43,9 @@ export default class extends Component{
             message:'',
             showMessage:false,
             isLoading:false,
-            keyboardSpace:0
+            viewMarginTop:new Animated.Value(0)
         };
         this.login = this.login.bind(this);
-        this.updateKeyboardSpace = this.updateKeyboardSpace.bind(this);
-        this.resetKeyboardSpace = this.resetKeyboardSpace.bind(this);
     }
 
     componentDidMount() {
@@ -57,26 +56,10 @@ export default class extends Component{
                 })
             }
         });
-        DeviceEventEmitter.addListener('keyboardWillShow', this.updateKeyboardSpace);
-        DeviceEventEmitter.addListener('keyboardWillHide', this.resetKeyboardSpace);
     }
 
     componentWillUnMount() {
-        DeviceEventEmitter.removeAllListeners('keyboardWillShow');
-        DeviceEventEmitter.removeAllListeners('keyboardWillHide');
-    }
 
-    updateKeyboardSpace(frames) {
-        const keyboardSpace =  frames.endCoordinates.height;
-        this.setState({
-            keyboardSpace: keyboardSpace
-        })
-    }
-
-    resetKeyboardSpace () {
-        this.setState({
-            keyboardSpace: 0
-        })
     }
 
     closeMessage(){
@@ -183,6 +166,11 @@ export default class extends Component{
         })
     }
 
+    passWordOnFucos(){
+        
+    }
+
+
     render(){
 
        var eye  = this.state.secureTextEntry?require('./images/eye_close.imageset/eye_close.png'):require('./images/icon_eye_disable.imageset/icon_eye_disable.png');
@@ -197,11 +185,7 @@ export default class extends Component{
                 </View>
 
                     <Image source={require('../view/images/bg.imageset/bg.png')} style={styles.image_Container}>
-                        <ScrollView style={[styles.flex_column]}
-                                    ref='keyboardView'
-                                    keyboardDismissMode='interactive'
-                                    contentInset={{bottom:this.state.keyboardSpace}}
-                                    showsVerticalScrollIndicator={true}>
+                        <Animated.View style={[styles.content,styles.flex_column,{marginTop:this.state.viewMarginTo}]}>
                         <View style={[styles.flex_colum,styles.logoContent,{flex:1}]}>
                             <Image source={require('../view/images/logincon.appiconset/120x120.png')}/>
                             <Text style={styles.logo_text}>联盟商</Text>
@@ -225,7 +209,9 @@ export default class extends Component{
                                     <TextInput style={[styles.user_input,styles.flex_row]}
                                                onChange={(event)=>this.setPassWord(event.nativeEvent.text)}
                                                keyboardType="default" returnKeyType='done'
-                                               secureTextEntry={this.state.secureTextEntry} placeholder='请输入您的密码'/>
+                                               secureTextEntry={this.state.secureTextEntry}
+                                               placeholder='请输入您的密码'
+                                               onFucos = {()=>this.passWordOnFucos()}/>
                                     <TouchableHighlight onPress={()=>this.changeModle()} underlayColor="transparent">
                                         <Image source={eye} style={[styles.image_right]}/>
                                     </TouchableHighlight>
@@ -244,7 +230,7 @@ export default class extends Component{
                                 </View>
                             </TouchableHighlight>
                         </View>
-                        </ScrollView>
+                        </Animated.View>
                     </Image>
                 {
                     this.state.showMessage?
@@ -412,6 +398,9 @@ const styles = StyleSheet.create({
         backgroundColor: 333,
         justifyContent: 'center',
         alignItems: 'center'
+    },
+    content:{
+        paddingTop:10
     }
 
 });

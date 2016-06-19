@@ -8,7 +8,8 @@ import {
     AlertIOS,
     AsyncStorage,
     Linking,
-    ScrollView
+    ScrollView,
+    ActivityIndicatorIOS
 } from 'react-native'
 
 'use district';
@@ -21,7 +22,9 @@ export default class extends Component{
     constructor(props) {
         super(props);
         // 初始状态
-        this.state = {};
+        this.state = {
+            isLoading:false
+        };
         this.render = this.render.bind(this);
     }
 
@@ -66,6 +69,17 @@ const styles = StyleSheet.create({
     },
     row:{
         paddingBottom:8
+    },
+    activity:{
+        position: 'absolute',
+        top: (Util.size.height/2)-40,
+        left:Util.size.width/2-40,
+        height: 80,
+        width:80,
+        borderRadius: 5,
+        backgroundColor: 333,
+        justifyContent: 'center',
+        alignItems: 'center'
     }
 
 });
