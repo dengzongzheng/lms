@@ -269,7 +269,7 @@ const styles = StyleSheet.create({
         alignItems:'flex-start'
     },
     logout:{
-        height:30,
+        height:40,
         justifyContent:'center',
         alignItems:'center',
         backgroundColor:'white',

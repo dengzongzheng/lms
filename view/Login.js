@@ -11,7 +11,8 @@ import {
     AlertIOS,
     AsyncStorage,
     ScrollView,
-    Modal
+    Modal,
+    ActivityIndicatorIOS
 } from 'react-native'
 
 'use district';
@@ -38,7 +39,8 @@ export default class extends Component{
             secureTextEntry:true,
             isLogin:false,
             message:'',
-            showMessage:false
+            showMessage:false,
+            isLoading:false
         };
         this.login = this.login.bind(this);
     }
@@ -81,12 +83,13 @@ export default class extends Component{
          }else {
              this.setState({
                  showMessage:false,
-                 message:''
+                 message:'',
+                 isLoading:true
              });
          }
 
          var url = Util.api+loginUrl+"/"+this.state.userName+"/"+this.state.passWord;
-         console.log(url);
+
          fetch(url).then((response)=>{
 
              if(response.status==200){
@@ -107,14 +110,16 @@ export default class extends Component{
                              mobile:responseData.authUser.mobile
                          }
                      });
-
+                     this.setState({
+                         isLoading:false
+                     })
                  });
-
              }else{
                  response.json().then((responseData)=>{
                      this.setState({
                          showMessage:true,
-                         message:'用户账号与密码不匹配'
+                         message:'用户账号与密码不匹配',
+                         isLoading:false
                      });
                      this.closeMessage();
                  });
@@ -206,7 +211,16 @@ export default class extends Component{
                         <View style={[styles.message_content]}><Text style={styles.message_text}>{this.state.message}</Text></View>
                     </View>:null
                 }
-
+                {
+                    this.state.isLoading?
+                        <View style={[styles.activity]}>
+                            <ActivityIndicatorIOS
+                                animating={true}
+                                size="large"
+                                color="white"
+                            />
+                        </View> :null
+                }
             </View>
         );
     }
@@ -345,6 +359,17 @@ const styles = StyleSheet.create({
         textAlign:'center',
         padding:5,
         flex:1
+    },
+    activity:{
+        position: 'absolute',
+        top: (Util.size.height/2)-40,
+        left:Util.size.width/2-40,
+        height: 80,
+        width:80,
+        borderRadius: 5,
+        backgroundColor: 333,
+        justifyContent: 'center',
+        alignItems: 'center'
     }
 
 });
