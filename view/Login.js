@@ -10,7 +10,8 @@ import {
     NavigatorIOS,
     AlertIOS,
     AsyncStorage,
-    ScrollView
+    ScrollView,
+    Modal
 } from 'react-native'
 
 'use district';
@@ -36,7 +37,8 @@ export default class extends Component{
             passWord:'',
             secureTextEntry:true,
             isLogin:false,
-            message:''
+            message:'',
+            showMessage:false
         };
         this.login = this.login.bind(this);
     }
@@ -51,15 +53,36 @@ export default class extends Component{
         });
     }
 
+    closeMessage(){
+        setTimeout(()=>{
+            this.setState({
+                showMessage:false
+            });
+        },1000);
+    }
+
     login(){
 
          if(!this.state.userName){
-             AlertIOS.alert('请输入正确的手机号');
+             this.setState({
+                showMessage:true,
+                message:'请输入正确的手机号'
+             });
+             this.closeMessage();
              return;
          }
-         if(!this.state.passWord){
-             AlertIOS.alert('请输入密码');
+         else if(!this.state.passWord){
+             this.setState({
+                 showMessage:true,
+                 message:'请输入密码'
+             });
+             this.closeMessage();
              return;
+         }else {
+             this.setState({
+                 showMessage:false,
+                 message:''
+             });
          }
 
          var url = Util.api+loginUrl+"/"+this.state.userName+"/"+this.state.passWord;
@@ -89,7 +112,11 @@ export default class extends Component{
 
              }else{
                  response.json().then((responseData)=>{
-                     AlertIOS.alert(responseData.message);
+                     this.setState({
+                         showMessage:true,
+                         message:'用户账号与密码不匹配'
+                     });
+                     this.closeMessage();
                  });
              }
 
@@ -174,10 +201,10 @@ export default class extends Component{
                     </View>
                 </Image>
                 {
-                    this.state.isLogin?null:
-                    <View style={styles.message}>
-                        <Text>{this.state.message}</Text>
-                    </View>
+                    this.state.showMessage?
+                    <View style={[styles.flex_row,styles.message_container]}>
+                        <View style={[styles.message_content]}><Text style={styles.message_text}>{this.state.message}</Text></View>
+                    </View>:null
                 }
 
             </View>
@@ -295,10 +322,29 @@ const styles = StyleSheet.create({
         top:18,
         width:40
     },
-    message:{
-        position:'absolute',
-        left:Util.size.width/2,
-        top:50
+    message_container: {
+        position: 'absolute',
+        top: 150,
+        height: 50,
+        justifyContent: 'center',
+        alignItems: 'center',
+        left:0,
+        width:Util.size.width
+
+    },
+    message_content: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 5,
+        backgroundColor: 111,
+        borderWidth: Util.pixel,
+        borderColor: 'darkslategray'
+    },
+    message_text:{
+        color:'white',
+        textAlign:'center',
+        padding:5,
+        flex:1
     }
 
 });

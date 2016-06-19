@@ -65,8 +65,8 @@ export default class extends Component{
             }
     }
 
-    callGolden(){
-        return Linking.openURL('tel:18610530276');
+    callGolden(tel){
+        return Linking.openURL('tel:'+'18511898011');
     }
 
     getGoden(){
@@ -83,7 +83,7 @@ export default class extends Component{
                            "电话:"+value.tel,
                            [
                                {text: '取消', onPress: () => console.log('Button Pressed!')},
-                               {text: '拨打电话', onPress: () => this.callGolden()}
+                               {text: '拨打电话', onPress: () => this.callGolden(tel)}
                            ]
                        )
                    }else{
