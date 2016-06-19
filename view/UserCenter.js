@@ -16,6 +16,7 @@ import Util from '../view/util/Util'
 import ChangePassword from '../view/ChangePassword'
 import MyCode from '../view/MyCode'
 import Login from '../view/Login'
+import Main from './Main'
 
 import ChildNumber from '../view/ChildNumber'
 
@@ -28,18 +29,28 @@ export default class extends Component{
         this.state = {
             unionBusinessName:'',
             mobile:'',
-            isLogin:false
+            isLogin:false,
+            unionBusinessId:'',
+            tokenid:''
         };
     }
 
     componentDidMount() {
         if(this.props.tokenid!=""){
             this.setState({
-                isLogin:true
+                isLogin:true,
+                unionBusinessId:this.props.unionBusinessId,
+                unionBusinessName:this.props.unionBusinessName,
+                mobile:this.props.mobile,
+                tokenid:this.props.tokenid
             });
         }else{
             this.setState({
-                isLogin:false
+                isLogin:false,
+                unionBusinessId:'',
+                unionBusinessName:'',
+                mobile:'',
+                tokenid:''
             });
         }
 
@@ -116,7 +127,17 @@ export default class extends Component{
     }
 
     goBack(){
-        this.props.navigator.pop();
+        this.props.navigator.push({
+            component:Main,
+            title:'',
+            passProps:{
+                tokenid:this.state.tokenid,
+                unionBusinessId:this.state.unionBusinessId,
+                unionBusinessName:this.state.unionBusinessName,
+                mobile:this.state.mobile
+            },
+            navigationBarHidden:true
+        });
     }
 
     logOut(){
@@ -128,7 +149,11 @@ export default class extends Component{
                     AsyncStorage.removeItem('unionBusinessId');
                     AsyncStorage.removeItem('unionBusinessName');
                     this.setState({
-                        isLogin:false
+                        isLogin:false,
+                        unionBusinessId:'',
+                        unionBusinessName:'',
+                        mobile:'',
+                        tokenid:''
                     });
                 }}
             ]

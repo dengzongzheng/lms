@@ -12,7 +12,8 @@ import {
     AsyncStorage,
     ScrollView,
     Modal,
-    ActivityIndicatorIOS
+    ActivityIndicatorIOS,
+    DeviceEventEmitter
 } from 'react-native'
 
 'use district';
@@ -40,9 +41,12 @@ export default class extends Component{
             isLogin:false,
             message:'',
             showMessage:false,
-            isLoading:false
+            isLoading:false,
+            keyboardSpace:0
         };
         this.login = this.login.bind(this);
+        this.updateKeyboardSpace = this.updateKeyboardSpace.bind(this);
+        this.resetKeyboardSpace = this.resetKeyboardSpace.bind(this);
     }
 
     componentDidMount() {
@@ -53,6 +57,26 @@ export default class extends Component{
                 })
             }
         });
+        DeviceEventEmitter.addListener('keyboardWillShow', this.updateKeyboardSpace);
+        DeviceEventEmitter.addListener('keyboardWillHide', this.resetKeyboardSpace);
+    }
+
+    componentWillUnMount() {
+        DeviceEventEmitter.removeAllListeners('keyboardWillShow');
+        DeviceEventEmitter.removeAllListeners('keyboardWillHide');
+    }
+
+    updateKeyboardSpace(frames) {
+        const keyboardSpace =  frames.endCoordinates.height;
+        this.setState({
+            keyboardSpace: keyboardSpace
+        })
+    }
+
+    resetKeyboardSpace () {
+        this.setState({
+            keyboardSpace: 0
+        })
     }
 
     closeMessage(){
@@ -171,40 +195,57 @@ export default class extends Component{
                     </TouchableHighlight>
                     <Text style={styles.header_text}>联盟商账号登录</Text>
                 </View>
-                <Image source={require('../view/images/bg.imageset/bg.png')} style={styles.image_Container}>
-                    <View style={[styles.flex_colum,styles.logoContent,{flex:1}]}>
-                        <Image source={require('../view/images/logincon.appiconset/120x120.png')}/>
-                        <Text style={styles.logo_text}>联盟商</Text>
-                    </View>
-                    <View style={styles.flex_colum}>
-                        <View style={[styles.flex_row,{justifyContent:'center',alignItems:'center'}]}>
-                            <View style={[styles.flex_row,styles.user_input_container]}>
-                                <Image source={require('./images/phone.imageset/phone.png')} style={[styles.image_common]}/>
-                                <TextInput style={[styles.user_input,styles.flex_row]} maxLength={11} value={this.state.userName} onChange={(event)=>this.setUserName(event.nativeEvent.text)} returnKeyType='done' keyboardType="numbers-and-punctuation" placeholder='请输入您的电话'/>
+
+                    <Image source={require('../view/images/bg.imageset/bg.png')} style={styles.image_Container}>
+                        <ScrollView style={[styles.flex_column]}
+                                    ref='keyboardView'
+                                    keyboardDismissMode='interactive'
+                                    contentInset={{bottom:this.state.keyboardSpace}}
+                                    showsVerticalScrollIndicator={true}>
+                        <View style={[styles.flex_colum,styles.logoContent,{flex:1}]}>
+                            <Image source={require('../view/images/logincon.appiconset/120x120.png')}/>
+                            <Text style={styles.logo_text}>联盟商</Text>
+                        </View>
+                        <View style={styles.flex_colum}>
+                            <View style={[styles.flex_row,{justifyContent:'center',alignItems:'center'}]}>
+                                <View style={[styles.flex_row,styles.user_input_container]}>
+                                    <Image source={require('./images/phone.imageset/phone.png')}
+                                           style={[styles.image_common]}/>
+                                    <TextInput style={[styles.user_input,styles.flex_row]} maxLength={11}
+                                               value={this.state.userName}
+                                               onChange={(event)=>this.setUserName(event.nativeEvent.text)}
+                                               returnKeyType='done' keyboardType="numbers-and-punctuation"
+                                               placeholder='请输入您的电话'/>
+                                </View>
+                            </View>
+                            <View style={[styles.flex_row,{justifyContent:'center',alignItems:'center'}]}>
+                                <View style={[styles.flex_row,styles.user_input_container]}>
+                                    <Image source={require('./images/lock-b.imageset/lock_b.png')}
+                                           style={[styles.image_common]}/>
+                                    <TextInput style={[styles.user_input,styles.flex_row]}
+                                               onChange={(event)=>this.setPassWord(event.nativeEvent.text)}
+                                               keyboardType="default" returnKeyType='done'
+                                               secureTextEntry={this.state.secureTextEntry} placeholder='请输入您的密码'/>
+                                    <TouchableHighlight onPress={()=>this.changeModle()} underlayColor="transparent">
+                                        <Image source={eye} style={[styles.image_right]}/>
+                                    </TouchableHighlight>
+                                </View>
+                            </View>
+                            <View style={[styles.flex_row,styles.password_forget]}>
+                                <View style={styles.flex_colum}/>
+                                <View style={[styles.password_forget_text_view]}><Text
+                                    style={styles.password_forget_text}>忘记密码</Text></View>
                             </View>
                         </View>
-                        <View style={[styles.flex_row,{justifyContent:'center',alignItems:'center'}]}>
-                            <View style={[styles.flex_row,styles.user_input_container]}>
-                                <Image source={require('./images/lock-b.imageset/lock_b.png')} style={[styles.image_common]}/>
-                                <TextInput style={[styles.user_input,styles.flex_row]} onChange={(event)=>this.setPassWord(event.nativeEvent.text)} keyboardType="default" returnKeyType='done' secureTextEntry={this.state.secureTextEntry} placeholder='请输入您的密码'/>
-                                <TouchableHighlight onPress={()=>this.changeModle()} underlayColor="transparent">
-                                    <Image source={eye} style={[styles.image_right]}/>
-                                </TouchableHighlight>
-                            </View>
+                        <View style={[styles.flex_colum,{flex:1.5}]}>
+                            <TouchableHighlight onPress={()=>{this.login()}} underlayColor="transparent">
+                                <View style={styles.loginButton}>
+                                    <Text style={styles.button_text}>登录</Text>
+                                </View>
+                            </TouchableHighlight>
                         </View>
-                        <View style={[styles.flex_row,styles.password_forget]}>
-                             <View style={styles.flex_colum}/>
-                             <View style={[styles.password_forget_text_view]}><Text style={styles.password_forget_text}>忘记密码</Text></View>
-                        </View>
-                    </View>
-                    <View style={[styles.flex_colum,{flex:1.5}]}>
-                        <TouchableHighlight onPress={()=>{this.login()}} underlayColor="transparent">
-                            <View style={styles.loginButton}>
-                                <Text style={styles.button_text}>登录</Text>
-                            </View>
-                        </TouchableHighlight>
-                    </View>
-                </Image>
+                        </ScrollView>
+                    </Image>
                 {
                     this.state.showMessage?
                     <View style={[styles.flex_row,styles.message_container]}>
@@ -255,10 +296,10 @@ const styles = StyleSheet.create({
         fontSize:15,
         fontWeight:'bold',
         marginTop:20,
-        backgroundColor:'transparent'
+        backgroundColor:'transparent',
+        marginBottom:20
     },
     logoContent:{
-        marginTop:20,
         justifyContent:'center',
         alignItems:'center'
     },
@@ -302,7 +343,8 @@ const styles = StyleSheet.create({
         borderRadius:5,
         height:50,
         justifyContent:'center',
-        alignItems:'center'
+        alignItems:'center',
+        marginBottom:20
     },
     password_input:{
         height:50,
