@@ -1,45 +1,25 @@
-import React, {Component} from 'react'
+import React from 'react';
 import {
+    Image,
+    StatusBar,
     StyleSheet,
-    View,
-    Text,
     TouchableOpacity,
-    VibrationIOS,
-    Dimensions
-} from 'react-native'
+    View,
+    Dimensions,
+    Text,
+    AlertIOS
+} from 'react-native';
+import Camera from 'react-native-camera';
 
-'use strict';
+export default class  extends React.Component {
 
-import Util from './util/Util'
-import Camera from 'react-native-camera'
-
-export default class extends Component{
-
-
-    // 构造
-    constructor(props) {
-        super(props);
-        // 初始状态
-        this.state = {
-
-        };
-
-    }
-    takePicture() {
-        this.camera.capture()
-            .then((data) => console.log(data))
-            .catch(err => console.error(err));
-    }
-
-
-    render(){
-
+    render() {
         return (
             <View style={styles.container}>
                 <Camera
                     ref={(cam) => {
                         this.camera = cam;
-                      }}
+                    }}
                     style={styles.preview}
                     aspect={Camera.constants.Aspect.fill}>
                     <Text style={styles.capture} onPress={this.takePicture.bind(this)}>[CAPTURE]</Text>
@@ -48,6 +28,13 @@ export default class extends Component{
         );
     }
 
+    takePicture() {
+        this.camera.capture()
+            .then((data) => {
+                console.log(data)
+            })
+            .catch(err => console.error(err));
+    }
 }
 
 const styles = StyleSheet.create({

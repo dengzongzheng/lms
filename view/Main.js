@@ -146,7 +146,7 @@ export default class extends Component{
         this.props.navigator.push({
             component: QRCodeScreen,
             title: '',
-            navigationBarHidden: false,
+            navigationBarHidden: true,
             passProps:{
                 text: 'http://www.baidu.com'
             }
