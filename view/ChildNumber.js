@@ -39,36 +39,36 @@ export default class extends Component{
     }
 
     componentDidMount() {
-
-        AsyncStorage.getItem("unionBusinessId").then((value)=>{
+            let value = this.props.unionBusinessId;
             if(null!=value){
                 var url = getUnionChildren+value;
-                var childrens = [];
-                console.log(url);
                 fetch(url).then((response)=> {
                     if(response.status==200){
                        response.json().then((responseData)=>{
-                           for(var i in responseData){
-                               console.log(responseData);
-                               var children=(
-                                   <View key={responseData[i].childrenTel} style={[styles.row_common,styles.flex_row]}>
-                                       <Text style={[styles.tel_text]} >{responseData[i].childrenTel}</Text>
-                                       <Text style={[styles.name_text]}>{responseData[i].childrenName}</Text>
-                                   </View>
-                               );
-                               childrens.push(children);
-                           }
+                           this.setState({
+                               childrens:responseData
+                           })
                        });
                     }
                 });
-                this.setState({
-                    childrens:childrens
-                })
             }
-        });
     }
 
     render(){
+        var childrens = [];
+        let responseData = this.state.childrens;
+        for(var i in responseData){
+            console.log(responseData);
+            var children=(
+                <View key={responseData[i].childrenTel} style={[styles.row_common,styles.flex_row]}>
+                    <Text style={[styles.tel_text]} >{responseData[i].childrenTel}</Text>
+                    <Text style={[styles.name_text]}>{responseData[i].childrenName}</Text>
+                </View>
+            );
+            childrens.push(children);
+        }
+
+
         return (
             <View>
                 <View style={[styles.headerContainer,styles.flex_row]}>
@@ -87,7 +87,7 @@ export default class extends Component{
                     </TouchableHighlight>
                 </View>
                 <View style={[styles.flex_colum]}>
-                    {this.state.childrens}
+                    {childrens}
                 </View>
             </View>
         );

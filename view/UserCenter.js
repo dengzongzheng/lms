@@ -46,27 +46,69 @@ export default class extends Component{
     }
 
     childNumber(){
-        this.props.navigator.push({
-            component:ChildNumber,
-            title:'',
-            navigationBarHidden:true
-        });
+        if(this.state.isLogin!=''){
+            this.props.navigator.push({
+                component:ChildNumber,
+                title:'',
+                navigationBarHidden:true,
+                passProps:{
+                    unionBusinessId:this.props.unionBusinessId
+                }
+            });
+        }else{
+            this.props.navigator.push({
+                component:Login,
+                title:'',
+                navigationBarHidden:true,
+                passProps:{
+
+                }
+            });
+        }
     }
 
     myCode(){
-        this.props.navigator.push({
-            component:MyCode,
-            title:'',
-            navigationBarHidden:true
-        });
+        if(this.state.isLogin!=''){
+            this.props.navigator.push({
+                component:MyCode,
+                title:'',
+                navigationBarHidden:true,
+                passProps:{
+                    unionBusinessId:this.props.unionBusinessId
+                }
+            });
+        }else{
+            this.props.navigator.push({
+                component:Login,
+                title:'',
+                navigationBarHidden:true,
+                passProps:{
+
+                }
+            });
+        }
     }
 
     changePassword(){
-        this.props.navigator.push({
-            component:ChangePassword,
-            title:'',
-            navigationBarHidden:true
-        });
+        if(this.state.isLogin!=''){
+            this.props.navigator.push({
+                component:ChangePassword,
+                title:'',
+                navigationBarHidden:true,
+                passProps:{
+                    unionBusinessId:this.props.unionBusinessId
+                }
+            });
+        }else{
+            this.props.navigator.push({
+                component:Login,
+                title:'',
+                navigationBarHidden:true,
+                passProps:{
+
+                }
+            });
+        }
     }
 
     checkVersion(){
@@ -84,6 +126,7 @@ export default class extends Component{
                 {text: '确定', onPress: () => {
                     AsyncStorage.removeItem('tokenid');
                     AsyncStorage.removeItem('unionBusinessId');
+                    AsyncStorage.removeItem('unionBusinessName');
                     this.setState({
                         isLogin:false
                     });
@@ -103,7 +146,7 @@ export default class extends Component{
     render(){
         var header;
         let logout = null;
-        if(this.props.tokenid!=''){
+        if(this.state.isLogin!=''){
             header = (
                 <View><Text style={[styles.user_text,styles.fontWhite]}>{this.props.unionBusinessName}</Text>
                     <Text style={styles.fontWhite}>{this.props.mobile}</Text></View>
