@@ -144,7 +144,7 @@ export default class extends Component{
 
     CodeScreen(){
         this.props.navigator.push({
-            component: QRCode,
+            component: QRCodeScreen,
             title: '',
             navigationBarHidden: false,
             passProps:{
