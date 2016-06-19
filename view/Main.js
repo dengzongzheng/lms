@@ -16,6 +16,8 @@ import Util from '../view/util/Util'
 import Recomment from '../view/Recommen'
 import UserCenter from '../view/UserCenter'
 import Customer from '../view/Customer'
+import QRCodeScreen from './QRCodeScreen'
+import QRCode from './QRCode'
 
 
 var getGolderURl='jyhouse-union/v1/provider/1.0/getGoldenByUnionId/';
@@ -136,9 +138,23 @@ export default class extends Component{
 
     }
 
+    CodeScreen(){
+        this.props.navigator.push({
+            component: QRCode,
+            title: '',
+            navigationBarHidden: false,
+            passProps:{
+                text: 'http://www.baidu.com'
+            }
+        });
+    }
+    _onSucess(result) {
+        console.log(result);
+    }
+
     render(){
         console.log(this.props.tokenid);
-        let saoyisao = this.props.tokenid!=''?null:<Image source={require('./images/saoyisao.imageset/saoyisao.png')}/>;
+        let saoyisao = this.props.tokenid!=''?null:<TouchableHighlight onPress={()=>this.CodeScreen()} underlayColor="transparent"><Image source={require('./images/saoyisao.imageset/saoyisao.png')}/></TouchableHighlight>;
         let jgj = this.props.tokenid!=''?<TouchableHighlight onPress={()=>this.getGoden()}  underlayColor="transparent">
             <Text style={[styles.font15,styles.magin_right]}>金官家</Text>
         </TouchableHighlight>:<Text style={[styles.font15,styles.magin_right,{color:'darkgrey'}]}>金官家</Text>;

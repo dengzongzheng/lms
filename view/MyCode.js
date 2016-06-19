@@ -10,6 +10,7 @@ import {
 'use strict';
 
 import Util from './util/Util'
+import QRCode from './QRCode'
 
 export default class extends Component{
 
@@ -35,7 +36,9 @@ export default class extends Component{
                         <Image source={require('./images/back.imageset/back_button.png')} />
                     </TouchableHighlight>
                 </View>
-                <View></View>
+                <View style={[styles.flex_row,styles.code_content]}>
+                    <QRCode/>
+                </View>
             </View>
         );
     }
@@ -74,6 +77,11 @@ const styles = StyleSheet.create({
         top:8,
         left:15,
         width:40
+    },
+    code_content:{
+        justifyContent:'center',
+        alignItems:'center',
+        paddingTop:30
     }
 
 });
